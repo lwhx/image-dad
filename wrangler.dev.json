@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "local-image-bot",
+  "compatibility_date": "2025-01-21",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "main": "workers/local-image/index.js",
+  "r2_buckets": [
+    {
+      "binding": "R2",
+      "bucket_name": "image-dad"
+    }
+  ]
+}
