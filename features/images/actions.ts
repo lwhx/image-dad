@@ -32,17 +32,12 @@ export const uploadImages = async (files: File[]) => {
   const r2 = createR2();
 
   const uploadR2Promises = files.map(async (file) => {
-    const key = `${generateDateDir()}/${generateRandomString()}.${file.type.split('/')[1]}`;
-    const url =
-      process.env.NODE_ENV === "development"
-        ? `http://localhost:8787/${key}`
-        : `${process.env.BUCKET_DOMAIN}/${key}`;
+    const key = `${generateDateDir()}/${generateRandomString()}.${
+      file.type.split("/")[1]
+    }`;
+    const url = `${process.env.BUCKET_DOMAIN}/${key}`;
 
-    await r2.put(key, file, {
-      httpMetadata: {
-        contentType: file.type,
-      },
-    });
+    await r2.put(key, file);
 
     await db.insert(images).values({
       filename: file.name,
