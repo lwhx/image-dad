@@ -12,15 +12,15 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "image-dad",
-      "database_id": "1c1643ba-563b-4db5-900b-858936433986",
+      "database_name": "${DATABASE_NAME}",
+      "database_id": "${DATABASE_ID}",
       "migrations_dir": "drizzle"
     }
   ],
   "r2_buckets": [
     {
       "binding": "R2",
-      "bucket_name": "image-dad"
+      "bucket_name": "${BUCKET_NAME}"
     }
   ]
 }
