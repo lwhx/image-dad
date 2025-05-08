@@ -1,12 +1,20 @@
-import ImageGrid from "@/components/ImageGrid";
-import TokenButton from "@/features/auth/components/TokenButton";
-import UploadButton from "@/features/images/components/UploadButton";
-import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+
+import ImageGrid from "@/components/ImageGrid";
+import SignoutButton from "@/components/SignoutButton";
+import UploadButton from "@/features/images/components/UploadButton";
+import { auth } from "@/lib/auth";
 
 export const runtime = "edge";
 
 export default async function Home() {
+  const session = await auth();
+
+  if (!session) {
+    redirect("/sign-in");
+  }
+
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="flex flex-col gap-8">
@@ -17,10 +25,7 @@ export default async function Home() {
           </Link>
           <div className="flex items-center gap-4">
             <UploadButton />
-            <TokenButton />
-            <div className="w-7 h-7 flex justify-items-center">
-              <UserButton />
-            </div>
+            <SignoutButton />
           </div>
         </div>
         {/* 图片网格 */}

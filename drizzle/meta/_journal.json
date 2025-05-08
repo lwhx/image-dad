@@ -15,6 +15,13 @@
       "when": 1737620686354,
       "tag": "0001_slippery_fixer",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1746682328565,
+      "tag": "0002_solid_exiles",
+      "breakpoints": true
     }
   ]
 }

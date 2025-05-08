@@ -6,6 +6,28 @@ import { eq } from "drizzle-orm";
 
 export const runtime = "edge";
 
+export async function getImage(id: number) {
+  "use server";
+
+  const db = createDb();
+  const image = await db.query.images.findFirst({
+    where: eq(images.id, id),
+  });
+
+  if (!image) {
+    throw new Error("图片不存在");
+  }
+
+  const r2 = createR2();
+  const object = await r2.get(image.key);
+
+  if (!object) {
+    throw new Error("图片不存在");
+  }
+
+  return { object, image };
+}
+
 export async function getImages(pageNo: number, pageSize: number) {
   "use server";
 

@@ -1,7 +1,12 @@
-import { getRequestContext } from "@cloudflare/next-on-pages"
-import { drizzle } from "drizzle-orm/d1"
-import * as schema from "./schema"
+import { getRequestContext } from "@cloudflare/next-on-pages";
+import { drizzle, DrizzleD1Database } from "drizzle-orm/d1";
+import * as schema from "./schema";
 
-export const createDb = () => drizzle(getRequestContext().env.DB, { schema })
+let _db: DrizzleD1Database<typeof schema>;
 
-export type Db = ReturnType<typeof createDb>
+export const createDb = () => {
+  if (!_db) {
+    _db = drizzle(getRequestContext().env.DB, { schema });
+  }
+  return _db;
+};

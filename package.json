@@ -14,11 +14,10 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
     "db:migrate-local": "tsx scripts/migrate.ts local",
     "db:migrate-remote": "tsx scripts/migrate.ts remote",
-    "dev:dev-bot": "wrangler dev --config wrangler.dev.json",
-    "deploy:bot": "wrangler deploy --config wrangler.bot.json"
+    "dev:r2": "wrangler dev --config wrangler.r2.json"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.9.15",
+    "@auth/drizzle-adapter": "^1.9.0",
     "@hono/zod-validator": "^0.4.3",
     "@radix-ui/react-alert-dialog": "^1.1.4",
     "@radix-ui/react-dialog": "^1.1.4",
@@ -32,6 +31,7 @@
     "hono": "^4.7.2",
     "lucide-react": "^0.473.0",
     "next": "15.1.5",
+    "next-auth": "^5.0.0-beta.27",
     "next-themes": "^0.4.4",
     "nuqs": "^2.4.0",
     "react": "^19.0.0",
@@ -59,6 +59,6 @@
     "tsx": "^4.19.2",
     "typescript": "^5",
     "vercel": "^39.3.0",
-    "wrangler": "^3.103.2"
+    "wrangler": "^4.14.3"
   }
 }

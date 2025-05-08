@@ -1,17 +1,26 @@
-import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
-import { deleteImage, getImages, uploadImages } from "../actions";
+import { zValidator } from "@hono/zod-validator";
+
+import { sessionMiddleware } from "@/lib/session-middleware";
+
+import { deleteImage, getImage, getImages, uploadImages } from "../actions";
 import { getImagesSchema, uploadSchema } from "../schemas";
 
 const app = new Hono()
-  .get("/", zValidator("query", getImagesSchema), async (c) => {
-    const { pageNo, pageSize } = c.req.valid("query");
-    const images = await getImages(pageNo, pageSize);
+  .get(
+    "/",
+    sessionMiddleware,
+    zValidator("query", getImagesSchema),
+    async (c) => {
+      const { pageNo, pageSize } = c.req.valid("query");
+      const images = await getImages(pageNo, pageSize);
 
-    return c.json({ data: images });
-  })
+      return c.json({ data: images });
+    }
+  )
   .post(
     "/upload",
+    sessionMiddleware,
     zValidator("form", uploadSchema, (result, c) => {
       if (!result.success) {
         return c.json(
@@ -21,7 +30,7 @@ const app = new Hono()
       }
     }),
     async (c) => {
-      const form = c.req.valid("form");      
+      const form = c.req.valid("form");
       const files = form["files"];
 
       if (files && files.length > 0) {
@@ -33,7 +42,16 @@ const app = new Hono()
       }
     }
   )
-  .delete("/:id", async (c) => {
+  .get("/:id", sessionMiddleware, async (c) => {
+    const { id } = c.req.param();
+
+    const { object, image } = await getImage(+id);
+
+    c.header("Content-Type", image.contentType);
+    c.header("Content-Disposition", `attachment; filename="${image.filename}"`);
+    return c.body(object.body);
+  })
+  .delete("/:id", sessionMiddleware, async (c) => {
     const { id } = c.req.param();
 
     await deleteImage(+id);

@@ -1,31 +1,32 @@
 "use client";
 
+import Image from "next/image";
+
+import { useDeleteImage } from "@/features/images/api/use-delete-image";
 import { useGetImages } from "@/features/images/api/use-get-images";
+import { useImageStates } from "@/features/images/hooks/use-image-states";
 import type { Image as ImageType } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { parseAsInteger, useQueryState } from "nuqs";
+
+import ConfirmDialog from "../ConfirmDialog";
 import Empty from "../Empty";
 import ImageGridSkeleton from "./ImageGridSkeleton";
 import Pagination from "./Pagination";
 import ViewDialog from "./ViewDialog";
-import ConfirmDialog from "../ConfirmDialog";
-import { useDeleteImage } from "@/features/images/api/use-delete-image";
 
 export default function ImageGrid() {
-  const [pageNo, setPageNo] = useQueryState(
-    "pageNo",
-    parseAsInteger.withDefault(1)
-  );
-  const [pageSize] = useQueryState("pageSize", parseAsInteger.withDefault(12));
-  const [view, setView] = useQueryState("view");
-  const [confirm, setConfirm] = useQueryState("confirm");
+  const [states, setStates] = useImageStates();
 
-  const { data, isLoading } = useGetImages({ pageNo, pageSize });
+  const { data, isLoading } = useGetImages({
+    pageNo: states.page,
+    pageSize: states.size,
+  });
   const { mutate, isPending } = useDeleteImage({
     onSuccess: () => {
-      setConfirm(null);
-      setView(null);
+      setStates({
+        id: null,
+        delete: null,
+      });
     },
   });
 
@@ -55,7 +56,7 @@ export default function ImageGrid() {
           <div
             key={image.id}
             className="group relative aspect-square cursor-pointer overflow-hidden rounded-lg bg-gray-100"
-            onClick={() => setView(`${image.id}`)}
+            onClick={() => setStates({ id: image.id })}
           >
             <Image
               src={image.url}
@@ -72,32 +73,36 @@ export default function ImageGrid() {
       </div>
 
       {/* 只有在有数据时才显示分页 */}
-      {total > pageSize && (
+      {total > states.size && (
         <div className="mt-4">
           <Pagination
-            currentPage={pageNo}
-            totalPages={Math.ceil(total / pageSize)}
-            onPageChange={(pageNo) => setPageNo(pageNo)}
+            currentPage={states.page}
+            totalPages={Math.ceil(total / states.size)}
+            onPageChange={(pageNo) => setStates({ page: pageNo })}
           />
         </div>
       )}
 
       <ViewDialog
-        viewDialogOpen={!!view}
-        setViewDialogOpen={() => setView(null)}
+        viewDialogOpen={!!states.id}
+        setViewDialogOpen={() => setStates({ id: null })}
         selectedImage={
-          view ? (images.find((img) => img.id === +view) as ImageType) : null
+          states.id
+            ? (images.find((img) => img.id === states.id) as ImageType)
+            : null
         }
-        setConfirmDialogOpen={() => setConfirm(view)}
+        setConfirmDialogOpen={() => setStates({ delete: true })}
       />
 
       <ConfirmDialog
-        open={!!confirm}
-        setOpen={() => setConfirm(null)}
+        open={!!states.delete}
+        setOpen={() => setStates({ delete: null })}
         title="确认删除"
         description="确认删除该图片吗？"
         isLoading={isPending}
-        onConfirm={() => confirm && mutate({ param: { id: confirm } })}
+        onConfirm={() =>
+          states.id && mutate({ param: { id: states.id.toString() } })
+        }
       />
     </>
   );

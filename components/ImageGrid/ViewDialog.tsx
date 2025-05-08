@@ -16,7 +16,7 @@ interface ViewDialogProps {
   viewDialogOpen: boolean;
   setViewDialogOpen: () => void;
   selectedImage: ImageType | null;
-  setConfirmDialogOpen: (open: boolean) => void;
+  setConfirmDialogOpen: () => void;
 }
 
 export default function ViewDialog({
@@ -41,15 +41,12 @@ export default function ViewDialog({
           )}
         </div>
         <DialogFooter>
-          <Button
-            variant="destructive"
-            onClick={() => setConfirmDialogOpen(true)}
-          >
+          <Button variant="destructive" onClick={setConfirmDialogOpen}>
             删除
           </Button>
           {selectedImage && (
             <DownloadButton
-              url={selectedImage.url}
+              id={selectedImage.id}
               filename={selectedImage.filename}
             />
           )}
