@@ -23,6 +23,7 @@ export default async function Home() {
           </Link>
           <div className="flex items-center gap-4">
             <UploadButton />
+
             <SignoutButton />
           </div>
         </div>

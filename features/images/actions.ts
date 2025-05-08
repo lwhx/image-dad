@@ -16,7 +16,7 @@ export async function getImage(id: number) {
     throw new Error("图片不存在");
   }
 
-  const r2 = createR2();
+  const r2 = await createR2();
   const object = await r2.get(image.key);
 
   if (!object) {
@@ -49,7 +49,7 @@ export const uploadImages = async (files: File[]) => {
   "use server";
 
   const db = await createDb();
-  const r2 = createR2();
+  const r2 = await createR2();
 
   const uploadR2Promises = files.map(async (file) => {
     const key = `${generateDateDir()}/${generateRandomString()}.${
@@ -78,7 +78,7 @@ export async function deleteImage(id: number) {
 
   try {
     const db = await createDb();
-    const r2 = createR2();
+    const r2 = await createR2();
 
     const image = await db.query.images.findFirst({
       where: eq(images.id, id),

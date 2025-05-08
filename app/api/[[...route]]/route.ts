@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
-import images from "@/features/images/server/route";
+
 import bot from "@/features/bot/server/route";
+import images from "@/features/images/server/route";
 
 const app = new Hono().basePath("/api");
 

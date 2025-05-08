@@ -33,7 +33,7 @@ bot.on(["message:photo", "message:document"], async (ctx) => {
 
   try {
     const db = await createDb();
-    const r2 = createR2();
+    const r2 = await createR2();
 
     const key = `${generateDateDir()}/${fileName}.${fileType}`;
     const url = `${process.env.BUCKET_DOMAIN}/${key}`;
