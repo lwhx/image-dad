@@ -32,7 +32,7 @@ bot.on(["message:photo", "message:document"], async (ctx) => {
   const fileName = generateRandomString();
 
   try {
-    const db = createDb();
+    const db = await createDb();
     const r2 = createR2();
 
     const key = `${generateDateDir()}/${fileName}.${fileType}`;

@@ -3,8 +3,6 @@ import { handle } from "hono/vercel";
 import images from "@/features/images/server/route";
 import bot from "@/features/bot/server/route";
 
-export const runtime = "edge";
-
 const app = new Hono().basePath("/api");
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

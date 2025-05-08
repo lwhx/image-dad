@@ -6,8 +6,6 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-export const runtime = "edge";
-
 export default function SignIn() {
   return (
     <div className="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">

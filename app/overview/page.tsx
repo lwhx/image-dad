@@ -6,8 +6,6 @@ import SignoutButton from "@/components/SignoutButton";
 import UploadButton from "@/features/images/components/UploadButton";
 import { auth } from "@/lib/auth";
 
-export const runtime = "edge";
-
 export default async function Home() {
   const session = await auth();
 

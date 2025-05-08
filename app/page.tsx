@@ -4,8 +4,6 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 
-export const runtime = "edge";
-
 export default async function Home() {
   return (
     <main className="flex flex-col items-center justify-center h-screen space-y-4">

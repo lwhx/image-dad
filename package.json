@@ -7,11 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "pnpm next-on-pages",
-    "preview": "pnpm pages:build && wrangler pages dev",
-    "deploy:pages": "pnpm pages:build && wrangler pages deploy",
-    "deploy": "tsx scripts/deploy.ts",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
+    "preview": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "db:migrate-local": "tsx scripts/migrate.ts local",
     "db:migrate-remote": "tsx scripts/migrate.ts remote",
     "dev:r2": "wrangler dev --config wrangler.r2.json"
@@ -42,9 +41,9 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@cloudflare/next-on-pages": "1",
     "@cloudflare/workers-types": "^4.20250121.0",
     "@eslint/eslintrc": "^3",
+    "@opennextjs/cloudflare": "^1.0.0-beta.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

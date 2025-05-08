@@ -1,14 +1,16 @@
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 
-export const runtime = "edge";
+import { createDb } from "./db";
+import { accounts, sessions, users } from "./db/schema";
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  // adapter: DrizzleAdapter(createDb(), {
-  //   usersTable: users,
-  //   accountsTable: accounts,
-  //   sessionsTable: sessions,
-  // }),
+export const { handlers, signIn, signOut, auth } = NextAuth(async () => ({
+  adapter: DrizzleAdapter(await createDb(), {
+    usersTable: users,
+    accountsTable: accounts,
+    sessionsTable: sessions,
+  }),
   providers: [GitHub],
   callbacks: {
     signIn({ profile }) {
@@ -25,4 +27,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
     signIn: "/sign-in",
   },
-});
+}));

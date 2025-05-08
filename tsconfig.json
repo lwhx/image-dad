@@ -25,6 +25,6 @@
         "@cloudflare/workers-types/2023-07-01"
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next.config.mjs", "workers/local-image/index.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next.config.mjs", "workers/local-image/local-r2.js"],
   "exclude": ["node_modules"]
 }

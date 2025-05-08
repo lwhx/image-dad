@@ -4,12 +4,10 @@ import { createR2 } from "@/lib/oss";
 import { generateDateDir, generateRandomString } from "@/lib/utils";
 import { eq } from "drizzle-orm";
 
-export const runtime = "edge";
-
 export async function getImage(id: number) {
   "use server";
 
-  const db = createDb();
+  const db = await createDb();
   const image = await db.query.images.findFirst({
     where: eq(images.id, id),
   });
@@ -31,7 +29,7 @@ export async function getImage(id: number) {
 export async function getImages(pageNo: number, pageSize: number) {
   "use server";
 
-  const db = createDb();
+  const db = await createDb();
   const [list, total] = await Promise.all([
     db.query.images.findMany({
       offset: (pageNo - 1) * pageSize,
@@ -50,7 +48,7 @@ export async function getImages(pageNo: number, pageSize: number) {
 export const uploadImages = async (files: File[]) => {
   "use server";
 
-  const db = createDb();
+  const db = await createDb();
   const r2 = createR2();
 
   const uploadR2Promises = files.map(async (file) => {
@@ -79,7 +77,7 @@ export async function deleteImage(id: number) {
   "use server";
 
   try {
-    const db = createDb();
+    const db = await createDb();
     const r2 = createR2();
 
     const image = await db.query.images.findFirst({

@@ -1,12 +1,10 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
-import { drizzle, DrizzleD1Database } from "drizzle-orm/d1";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { drizzle } from "drizzle-orm/d1";
+import { cache } from "react";
+
 import * as schema from "./schema";
 
-let _db: DrizzleD1Database<typeof schema>;
-
-export const createDb = () => {
-  if (!_db) {
-    _db = drizzle(getRequestContext().env.DB, { schema });
-  }
-  return _db;
-};
+export const createDb = cache(async () => {
+  const { env } = await getCloudflareContext({ async: true });
+  return drizzle(env.DB, { schema });
+});
