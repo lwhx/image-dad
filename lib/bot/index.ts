@@ -5,10 +5,8 @@ import { createR2 } from "../oss";
 import { generateDateDir, generateRandomString } from "../utils";
 import { commandStart, isOwner, replyNotAllowed } from "./utils";
 
-const token = process.env.BOT_TOKEN;
-
-export const createBot = async () => {
-  if (!token) return;
+export const createBot = () => {
+  const token = process.env.BOT_TOKEN!;
   const bot = new Bot(token);
 
   bot.command("start", async (ctx) => {
