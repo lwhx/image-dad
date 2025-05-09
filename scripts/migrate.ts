@@ -1,6 +1,5 @@
 import { readFileSync } from "fs";
 import { join } from "path";
-import JSON5 from "json5";
 import { exec } from "child_process";
 import { promisify } from "util";
 
@@ -24,11 +23,11 @@ async function migrate() {
   const mode = args[0];
 
   if (!mode || !["local", "remote"].includes(mode)) {
-    console.error("Please provide a mode: local or remote");
+    console.error("请提供一个模式: local 或 remote");
     process.exit(1);
   }
 
-  console.log(`Migrating in ${mode} mode`);
+  console.log(`在 ${mode} 模式下迁移`);
 
   // Read wrangler.json
   const wranglerJsonPath = join(process.cwd(), "wrangler.json");
@@ -36,30 +35,28 @@ async function migrate() {
 
   try {
     const wranglerJson = readFileSync(wranglerJsonPath, "utf8");
-    config = JSON5.parse(wranglerJson) as WranglerConfig;
+    config = JSON.parse(wranglerJson) as WranglerConfig;
   } catch {
-    console.error(
-      "Error: Failed to parse wrangler.json or wrangler.json not found"
-    );
+    console.error("错误: 无法解析 wrangler.json 或 wrangler.json 未找到");
     process.exit(1);
   }
 
   if (!config.d1_databases?.[0]?.database_name) {
-    console.error("Error: Database name not found in wrangler.toml");
+    console.error("错误: 未找到 wrangler.toml 中的数据库名称");
     process.exit(1);
   }
 
   const dbName = config.d1_databases[0].database_name;
 
   // Generate migrations
-  console.log("Generating migrations...");
+  console.log("生成迁移...");
   await execAsync("drizzle-kit generate");
 
   // Apply migrations
-  console.log(`Applying migrations to ${mode} database: ${dbName}`);
+  console.log(`应用迁移到 ${mode} 数据库: ${dbName}`);
   await execAsync(`wrangler d1 migrations apply ${dbName} --${mode}`);
 
-  console.log("Migration completed successfully!");
+  console.log("迁移完成！");
 }
 
 migrate();

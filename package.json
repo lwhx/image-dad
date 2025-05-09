@@ -13,7 +13,8 @@
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "db:migrate-local": "bun scripts/migrate.ts local",
     "db:migrate-remote": "bun scripts/migrate.ts remote",
-    "dev:r2": "wrangler dev --config wrangler.r2.json"
+    "dev:r2": "wrangler dev --config wrangler.r2.json",
+    "setup": "bun scripts/setup.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.9.0",
@@ -54,7 +55,6 @@
     "drizzle-kit": "^0.30.2",
     "eslint": "^9",
     "eslint-config-next": "15.1.4",
-    "json5": "^2.2.3",
     "postcss": "^8",
     "tailwindcss": "^4.1.5",
     "typescript": "^5",
