@@ -27,7 +27,6 @@
 | AUTH_SECRET         | 用于加密的密钥                | 随机字符串     | 是       |
 | AUTH_GITHUB_ID      | GitHub OAuth 应用 ID          | 在 GitHub 获取 | 是       |
 | AUTH_GITHUB_SECRET  | GitHub OAuth 应用密钥         | 在 GitHub 获取 | 是       |
-| AUTH_TRUST_HOST     | 是否信任主机                  | true           | 是       |
 | ALLOW_EMAILS        | 允许的邮箱列表，用逗号分隔    |                | 是       |
 | NEXT_PUBLIC_APP_URL | 应用 URL，必须以 https 开头   |                | 是       |
 | BUCKET_DOMAIN       | 存储桶域名，必须以 https 开头 |                | 是       |

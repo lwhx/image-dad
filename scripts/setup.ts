@@ -29,12 +29,6 @@ const envConfigs: EnvConfig[] = [
     description: "GitHub OAuth 应用密钥",
   },
   {
-    name: "AUTH_TRUST_HOST",
-    required: true,
-    validate: (value) => value === "true",
-    description: "是否信任主机",
-  },
-  {
     name: "ALLOW_EMAILS",
     required: true,
     validate: (value) => value.split(",").every((email) => email.includes("@")),
