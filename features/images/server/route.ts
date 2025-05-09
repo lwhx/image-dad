@@ -49,6 +49,11 @@ const app = new Hono()
 
     c.header("Content-Type", image.contentType);
     c.header("Content-Disposition", `attachment; filename="${image.filename}"`);
+    c.header("Content-Length", object.size.toString());
+    c.header("Accept-Ranges", "bytes");
+    c.header("Cache-Control", "public, max-age=31536000, immutable");
+    c.header("Last-Modified", image.createdAt?.toUTCString());
+
     return c.body(object.body);
   })
   .delete("/:id", sessionMiddleware, async (c) => {
