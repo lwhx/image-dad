@@ -5,54 +5,61 @@ import { createR2 } from "../oss";
 import { generateDateDir, generateRandomString } from "../utils";
 import { commandStart, isOwner, replyNotAllowed } from "./utils";
 
-const bot = new Bot(process.env.BOT_TOKEN!);
+const token = process.env.BOT_TOKEN;
 
-bot.command("start", async (ctx) => {
-  await commandStart(ctx);
-});
+export const createBot = async () => {
+  if (!token) return;
+  const bot = new Bot(token);
 
-bot.on(["message:photo", "message:document"], async (ctx) => {
-  if (!isOwner(ctx.message!.from.id)) {
-    return replyNotAllowed(ctx);
-  }
+  bot.command("start", async (ctx) => {
+    await commandStart(ctx);
+  });
 
-  const file = await ctx.getFile();
-  const filePath = file.file_path;
-  const fileSize = file.file_size || 0;
+  bot.on(["message:photo", "message:document"], async (ctx) => {
+    if (!isOwner(ctx.message!.from.id)) {
+      return replyNotAllowed(ctx);
+    }
 
-  const res = await fetch(
-    `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${filePath}`
-  );
+    const file = await ctx.getFile();
+    const filePath = file.file_path;
+    const fileSize = file.file_size || 0;
 
-  if (!res.ok) {
-    return ctx.reply("Failed to upload file. Please check your webhook is correct.");
-  }
+    const res = await fetch(
+      `https://api.telegram.org/file/bot${process.env.BOT_TOKEN}/${filePath}`
+    );
 
-  const fileType = file.file_path?.split(".").pop() || "";
-  const fileName = generateRandomString();
+    if (!res.ok) {
+      return ctx.reply(
+        "Failed to upload file. Please check your webhook is correct."
+      );
+    }
 
-  try {
-    const db = await createDb();
-    const r2 = await createR2();
+    const fileType = file.file_path?.split(".").pop() || "";
+    const fileName = generateRandomString();
 
-    const key = `${generateDateDir()}/${fileName}.${fileType}`;
-    const url = `${process.env.BUCKET_DOMAIN}/${key}`;
+    try {
+      const db = await createDb();
+      const r2 = await createR2();
 
-    await r2.put(key, await res.arrayBuffer());
+      const key = `${generateDateDir()}/${fileName}.${fileType}`;
+      const url = `${process.env.BUCKET_DOMAIN}/${key}`;
 
-    await db.insert(images).values({
-      filename: `${fileName}.${fileType}`,
-      url,
-      key,
-      contentType: `image/${fileType}`,
-      bytes: fileSize,
-    });
+      await r2.put(key, await res.arrayBuffer());
 
-    return ctx.reply(`Successfully uploaded image!\nURL: ${url}`);
-  } catch (err) {
-    console.error(err);
-    return ctx.reply("Failed to upload file");
-  }
-});
+      await db.insert(images).values({
+        filename: `${fileName}.${fileType}`,
+        url,
+        key,
+        contentType: `image/${fileType}`,
+        bytes: fileSize,
+      });
 
-export default bot;
+      return ctx.reply(`Successfully uploaded image!\nURL: ${url}`);
+    } catch (err) {
+      console.error(err);
+      return ctx.reply("Failed to upload file");
+    }
+  });
+
+  return bot;
+};
