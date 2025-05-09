@@ -11,8 +11,8 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "db:migrate-local": "tsx scripts/migrate.ts local",
-    "db:migrate-remote": "tsx scripts/migrate.ts remote",
+    "db:migrate-local": "bun scripts/migrate.ts local",
+    "db:migrate-remote": "bun scripts/migrate.ts remote",
     "dev:r2": "wrangler dev --config wrangler.r2.json"
   },
   "dependencies": {
@@ -57,7 +57,6 @@
     "json5": "^2.2.3",
     "postcss": "^8",
     "tailwindcss": "^4.1.5",
-    "tsx": "^4.19.2",
     "typescript": "^5",
     "vercel": "^39.3.0",
     "wrangler": "^4.14.3"
