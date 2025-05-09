@@ -43,7 +43,6 @@ next-env.d.ts
 
 # wrangler files
 .wrangler
-wrangler.json
 .open-next
 
 .idea
