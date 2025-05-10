@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 
 import ImageGrid from "@/components/ImageGrid";
 import SignoutButton from "@/components/SignoutButton";
+import UpdatePassword from "@/features/auth/components/update-password";
 import UploadButton from "@/features/images/components/UploadButton";
 import { auth } from "@/lib/auth";
 
@@ -26,7 +27,7 @@ export default async function Home() {
           </Link>
           <div className="flex items-center gap-4">
             <UploadButton />
-
+            <UpdatePassword />
             <SignoutButton />
           </div>
         </div>
