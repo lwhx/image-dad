@@ -1,6 +1,6 @@
 # 图片老豆 👨
 
-这是一个基于 Next.js 的图床项目，允许用户上传、查看和删除图片。该项目使用 Clerk 进行身份验证，并将图片存储在 Cloudflare R2 中。
+这是一个基于 Next.js 的图床项目，图片存储在 Cloudflare R2 中。允许用户上传、查看和删除图片。
 
 ## 特性
 
@@ -18,20 +18,18 @@
 - **后端**: Next.js + Hono.js
 - **数据库**: Cloudflare D1, 使用 Drizzle ORM
 - **存储**: Cloudflare R2
-- **身份验证**: Auth.js
+- **身份验证**: better-auth
 
 ## 环境变量
 
-| 名称                | 描述                          | 值             | 是否必须 |
-| ------------------- | ----------------------------- | -------------- | -------- |
-| AUTH_SECRET         | 用于加密的密钥                | 随机字符串     | 是       |
-| AUTH_GITHUB_ID      | GitHub OAuth 应用 ID          | 在 GitHub 获取 | 是       |
-| AUTH_GITHUB_SECRET  | GitHub OAuth 应用密钥         | 在 GitHub 获取 | 是       |
-| ALLOW_EMAILS        | 允许的邮箱列表，用逗号分隔    |                | 是       |
-| NEXT_PUBLIC_APP_URL | 应用 URL，必须以 https 开头   |                | 是       |
-| BUCKET_DOMAIN       | 存储桶域名，必须以 https 开头 |                | 是       |
-| BOT_OWNERS_ID       | 机器人所有者 ID，必须是数字   |                | 是       |
-| BOT_TOKEN           | 机器人 Token                  |                | 是       |
+| 名称                 | 描述                          | 值             | 是否必须 |
+| -------------------- | ----------------------------- | -------------- | -------- |
+| BETTER_AUTH_SECRET   | 用于加密的密钥                | 随机字符串     | 是       |
+| BETTER_AUTH_URL      | 应用 URL，必须以 https 开头   |                | 是       |
+| GITHUB_CLIENT_ID     | GitHub OAuth 应用 ID          | 在 GitHub 获取 | 是       |
+| GITHUB_CLIENT_SECRET | GitHub OAuth 应用密钥         | 在 GitHub 获取 | 是       |
+| ALLOW_EMAILS         | 允许的邮箱列表，用逗号分隔    |                | 是       |
+| BUCKET_DOMAIN        | 存储桶域名，必须以 https 开头 |                | 是       |
 
 ## 先决条件
 

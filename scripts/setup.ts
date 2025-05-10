@@ -14,17 +14,23 @@ interface EnvConfig {
 
 const envConfigs: EnvConfig[] = [
   {
-    name: "AUTH_SECRET",
+    name: "BETTER_AUTH_SECRET",
     required: true,
     description: "用于加密的密钥",
   },
   {
-    name: "AUTH_GITHUB_ID",
+    name: "BETTER_AUTH_URL",
+    required: true,
+    validate: (value) => value.startsWith("https"),
+    description: "应用 URL，必须以 https 开头",
+  },
+  {
+    name: "GITHUB_CLIENT_ID",
     required: true,
     description: "GitHub OAuth 应用 ID",
   },
   {
-    name: "AUTH_GITHUB_SECRET",
+    name: "GITHUB_CLIENT_SECRET",
     required: true,
     description: "GitHub OAuth 应用密钥",
   },
@@ -35,27 +41,10 @@ const envConfigs: EnvConfig[] = [
     description: "允许的邮箱列表，用逗号分隔",
   },
   {
-    name: "NEXT_PUBLIC_APP_URL",
-    required: true,
-    validate: (value) => value.startsWith("https"),
-    description: "应用 URL，必须以 https 开头",
-  },
-  {
     name: "BUCKET_DOMAIN",
     required: true,
     validate: (value) => value.startsWith("https"),
     description: "存储桶域名，必须以 https 开头",
-  },
-  {
-    name: "BOT_OWNERS_ID",
-    required: true,
-    validate: (value) => !isNaN(Number(value)),
-    description: "机器人所有者 ID，必须是数字",
-  },
-  {
-    name: "BOT_TOKEN",
-    required: true,
-    description: "机器人 Token",
   },
 ];
 
