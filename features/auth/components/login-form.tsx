@@ -2,8 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GithubIcon, Loader2, TriangleAlertIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useQueryState } from "nuqs";
+import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -24,8 +24,6 @@ import { loginSchema } from "../schemas";
 
 export function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
-  const searchParams = useSearchParams();
-  const errorMessage = searchParams.get("error");
 
   const form = useForm<z.infer<typeof loginSchema>>({
     defaultValues: {
@@ -93,15 +91,15 @@ export function LoginForm() {
             </FormItem>
           )}
         />
+
         <Button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : "登录"}
         </Button>
-        {errorMessage && (
-          <div className="flex items-center gap-2 rounded-md bg-destructive/15 p-3 text-sm text-destructive">
-            <TriangleAlertIcon className="h-4 w-4 shrink-0" />
-            {errorMessage.replace(/_/g, " ")}
-          </div>
-        )}
+
+        <Suspense>
+          <ErrorMessage />
+        </Suspense>
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
@@ -112,6 +110,7 @@ export function LoginForm() {
             </span>
           </div>
         </div>
+
         <Button
           type="button"
           variant="outline"
@@ -124,5 +123,21 @@ export function LoginForm() {
         </Button>
       </form>
     </Form>
+  );
+}
+
+function ErrorMessage() {
+  const [errorMessage] = useQueryState("error", {
+    defaultValue: "",
+    clearOnDefault: true,
+  });
+
+  if (!errorMessage) return null;
+
+  return (
+    <div className="flex items-center gap-3 rounded-md bg-destructive/15 p-3 text-sm text-destructive">
+      <TriangleAlertIcon className="h-4 w-4 shrink-0" />
+      {errorMessage.replace(/_/g, " ")}
+    </div>
   );
 }
