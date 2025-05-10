@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
@@ -7,7 +8,9 @@ import UploadButton from "@/features/images/components/UploadButton";
 import { auth } from "@/lib/auth";
 
 export default async function Home() {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session) {
     redirect("/sign-in");

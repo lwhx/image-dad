@@ -1,1 +1,0 @@
-ALTER TABLE `images` ADD `key` text DEFAULT '' NOT NULL;

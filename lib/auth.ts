@@ -1,31 +1,24 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth from "next-auth";
-import GitHub from "next-auth/providers/github";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 
 import { createDb } from "./db";
-import { accounts, sessions, users } from "./db/schema";
 
-export const { handlers, signIn, signOut, auth } = NextAuth(async () => ({
-  adapter: DrizzleAdapter(await createDb(), {
-    usersTable: users,
-    accountsTable: accounts,
-    sessionsTable: sessions,
+const db = await createDb();
+
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: "sqlite",
   }),
-  providers: [GitHub],
-  callbacks: {
-    signIn({ profile }) {
-      const allowEmails = process.env.ALLOW_EMAILS?.split(",");
-      if (!allowEmails || !profile?.email) return false;
-
-      if (allowEmails.includes(profile.email)) {
-        return true;
-      }
-
-      return false;
+  emailAndPassword: {
+    enabled: true,
+  },
+  socialProviders: {
+    github: {
+      clientId: process.env.GITHUB_CLIENT_ID!,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
     },
   },
-  pages: {
-    signIn: "/sign-in",
-  },
-  trustHost: true,
-}));
+});
+
+export type Session = typeof auth.$Infer.Session;
+export type User = typeof auth.$Infer.Session.user;

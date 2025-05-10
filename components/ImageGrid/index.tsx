@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useDeleteImage } from "@/features/images/api/use-delete-image";
 import { useGetImages } from "@/features/images/api/use-get-images";
 import { useImageStates } from "@/features/images/hooks/use-image-states";
-import type { Image as ImageType } from "@/lib/db/schema";
 import { cn } from "@/lib/utils";
 
 import ConfirmDialog from "../ConfirmDialog";
@@ -86,11 +85,7 @@ export default function ImageGrid() {
       <ViewDialog
         viewDialogOpen={!!states.id}
         setViewDialogOpen={() => setStates({ id: null })}
-        selectedImage={
-          states.id
-            ? (images.find((img) => img.id === states.id) as ImageType)
-            : null
-        }
+        selectedImage={images.find((img) => img.id === states.id)}
         setConfirmDialogOpen={() => setStates({ delete: true })}
       />
 

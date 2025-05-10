@@ -32,9 +32,10 @@ const app = new Hono()
     async (c) => {
       const form = c.req.valid("form");
       const files = form["files"];
+      const user = c.get("user");
 
       if (files && files.length > 0) {
-        const response = await uploadImages(files);
+        const response = await uploadImages(files, user.id);
 
         return c.json({ data: response });
       } else {

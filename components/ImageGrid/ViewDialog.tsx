@@ -8,14 +8,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import type { Image as ImageType } from "@/lib/db/schema";
-import MyImage from "../MyImage";
+import { ResponseType as ImageType } from "@/features/images/api/use-get-images";
+
 import DownloadButton from "../DownloadButton";
+import MyImage from "../MyImage";
 
 interface ViewDialogProps {
   viewDialogOpen: boolean;
   setViewDialogOpen: () => void;
-  selectedImage: ImageType | null;
+  selectedImage?: ImageType["list"][number];
   setConfirmDialogOpen: () => void;
 }
 

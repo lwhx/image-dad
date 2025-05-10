@@ -45,7 +45,7 @@ export async function getImages(pageNo: number, pageSize: number) {
   };
 }
 
-export const uploadImages = async (files: File[]) => {
+export const uploadImages = async (files: File[], userId: string) => {
   "use server";
 
   const db = await createDb();
@@ -65,6 +65,7 @@ export const uploadImages = async (files: File[]) => {
       key,
       contentType: file.type,
       bytes: file.size,
+      userId,
     });
 
     return { url, key };

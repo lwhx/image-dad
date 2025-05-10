@@ -1,21 +1,29 @@
-import { LogOutIcon } from "lucide-react";
+"use client";
 
-import { signOut } from "@/lib/auth";
+import { LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
+
+import { signOut } from "@/lib/auth-client";
 import { Button } from "./ui/button";
 
 const SignoutButton = () => {
+  const router = useRouter();
+
+  function handleSignOut() {
+    signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/sign-in");
+        },
+      },
+    });
+  }
+
   return (
-    <form
-      action={async () => {
-        "use server";
-        await signOut();
-      }}
-    >
-      <Button type="submit">
-        <LogOutIcon className="w-4 h-4" />
-        退出登录
-      </Button>
-    </form>
+    <Button onClick={handleSignOut}>
+      <LogOutIcon className="w-4 h-4" />
+      退出登录
+    </Button>
   );
 };
 
