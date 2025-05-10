@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { DownloadIcon } from "lucide-react";
 
 interface DownloadButtonProps {
-  id: number;
+  id: string;
   filename: string;
 }
 

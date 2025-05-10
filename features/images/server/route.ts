@@ -46,7 +46,7 @@ const app = new Hono()
   .get("/:id", sessionMiddleware, async (c) => {
     const { id } = c.req.param();
 
-    const { object, image } = await getImage(+id);
+    const { object, image } = await getImage(id);
 
     c.header("Content-Type", image.contentType);
     c.header("Content-Disposition", `attachment; filename="${image.filename}"`);
@@ -60,7 +60,7 @@ const app = new Hono()
   .delete("/:id", sessionMiddleware, async (c) => {
     const { id } = c.req.param();
 
-    await deleteImage(+id);
+    await deleteImage(id);
 
     return c.json({ data: id });
   });

@@ -16,7 +16,7 @@ CREATE TABLE `account` (
 );
 --> statement-breakpoint
 CREATE TABLE `images` (
-	`id` integer PRIMARY KEY NOT NULL,
+	`id` text PRIMARY KEY NOT NULL,
 	`filename` text NOT NULL,
 	`description` text,
 	`key` text DEFAULT '' NOT NULL,

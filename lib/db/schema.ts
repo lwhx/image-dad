@@ -55,7 +55,9 @@ export const verification = sqliteTable("verification", {
 });
 
 export const images = sqliteTable("images", {
-  id: integer("id").primaryKey(),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
   filename: text("filename").notNull(),
   description: text("description"),
   key: text("key").notNull().default(""),

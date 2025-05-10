@@ -1,4 +1,4 @@
-import { parseAsBoolean, parseAsInteger, useQueryStates } from "nuqs";
+import { parseAsBoolean, parseAsInteger, parseAsString, useQueryStates } from "nuqs";
 
 export const useImageStates = () => {
   return useQueryStates({
@@ -8,7 +8,7 @@ export const useImageStates = () => {
     size: parseAsInteger.withDefault(12).withOptions({
       clearOnDefault: true,
     }),
-    id: parseAsInteger.withOptions({
+    id: parseAsString.withOptions({
       clearOnDefault: true,
     }),
     delete: parseAsBoolean.withDefault(false).withOptions({

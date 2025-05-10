@@ -4,7 +4,7 @@ import { createR2 } from "@/lib/oss";
 import { generateDateDir, generateRandomString } from "@/lib/utils";
 import { eq } from "drizzle-orm";
 
-export async function getImage(id: number) {
+export async function getImage(id: string) {
   "use server";
 
   const db = await createDb();
@@ -74,7 +74,7 @@ export const uploadImages = async (files: File[], userId: string) => {
   return await Promise.all(uploadR2Promises);
 };
 
-export async function deleteImage(id: number) {
+export async function deleteImage(id: string) {
   "use server";
 
   try {
